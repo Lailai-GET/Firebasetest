@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {  } from "firebase/firestore";
+import {  doc, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,3 +16,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+const firestore = getFirestore();
+const test = doc(firestore, "testCollection/testDocument")
+async function writeToTest() {
+  const testWrite = 
+    {
+      string: "test2",
+      number: 22
+    }
+
+  try {
+    await setDoc(test, testWrite);
+    console.log("should write")
+  } catch (error) {
+    console.log(`errors? ${error}`);
+  }
+}
+writeToTest()
