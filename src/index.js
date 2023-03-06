@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {  doc, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -11,26 +11,30 @@ const firebaseConfig = {
   projectId: "testproject-b131e",
   storageBucket: "testproject-b131e.appspot.com",
   messagingSenderId: "303278852296",
-  appId: "1:303278852296:web:e38f0dd7becfcaa81abdfd"
+  appId: "1:303278852296:web:e38f0dd7becfcaa81abdfd",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const firestore = getFirestore();
-const test = doc(firestore, "testCollection/testDocument")
-async function writeToTest() {
-  const testWrite = 
-    {
-      string: "test2",
-      number: 22
-    }
+// try {
+//   const test = await addDoc(collection(db, "testDocument"), {
+//     string: "test2",
+//     number: 222,
+//   });
+//   console.log("should write", test.id, test.data);
+// } catch (e) {
+//   console.error("error why?", e);
+// }
 
-  try {
-    await setDoc(test, testWrite);
-    console.log("should write")
-  } catch (error) {
-    console.log(`errors? ${error}`);
-  }
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
 }
-writeToTest()
